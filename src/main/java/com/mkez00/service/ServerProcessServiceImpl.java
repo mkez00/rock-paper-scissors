@@ -3,10 +3,13 @@ package com.mkez00.service;
 import com.mkez00.helper.GeneralHelper;
 import com.mkez00.model.Action;
 import com.mkez00.repository.ActionRepository;
+import org.slf4j.event.Level;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.ServletContext;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -20,8 +23,36 @@ public class ServerProcessServiceImpl implements ServerProcessService {
     @Autowired
     ActionRepository actionRepository;
 
+    @Autowired
+    ServletContext servletContext;
+
     @Override
-    @Scheduled(fixedRate = 1000)
+    @Async
+    public void wakeup() {
+         if (!isProcessing()){
+             setProcessing(true);
+             for (int x = 0; x <=20; x++) {
+                 processActions();
+                 GeneralHelper.sleep(500);
+             }
+             setProcessing(false);
+         }
+    }
+
+    private void setProcessing(boolean processing){
+        servletContext.setAttribute("processing", processing);
+    }
+
+    private boolean isProcessing(){
+        if (servletContext.getAttribute("processing")==null ||
+                !Boolean.valueOf(servletContext.getAttribute("processing").toString())){
+            return false;
+        } else{
+            return true;
+        }
+    }
+
+    @Override
     public void processActions() {
         LOG.info("processActions");
         List<Action> actions = actionRepository.findAll();

@@ -30,9 +30,13 @@ public class ActionApiController {
     @Autowired
     ActionService actionService;
 
+    @Autowired
+    ServerProcessService serverProcessService;
+
     @RequestMapping(method = RequestMethod.POST, consumes="application/json",produces = "application/json")
     public Action actionPost(@RequestBody Action body) {
         LOG.info("actionPost");
+        serverProcessService.wakeup();
         body = actionService.save(body);
         body = actionService.process(body);
         return body;

@@ -18,4 +18,6 @@ public interface ServerProcessService {
     Action findClosestMatch(Action actionIn, List<Action> actionList);
 
     Action.ResponseEnum result(Action.ActionEnum action, Action.ActionEnum compare);
+
+    void wakeup();
 }
