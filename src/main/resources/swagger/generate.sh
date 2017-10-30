@@ -1,0 +1,1 @@
+swagger-codegen generate -i swagger.json -l spring -o gen

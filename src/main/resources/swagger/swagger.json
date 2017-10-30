@@ -1,0 +1,94 @@
+{
+  "swagger": "2.0",
+  "info": {
+  	"description": "Rock, Paper, Scissors",
+  	"version": "1.0.0",
+    "title": "Rock, Paper, Scissors"
+  },
+  "host": "rockpaperscissors.io",
+  "basePath": "/rest/v1",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+  	"/action": {
+  		"post": {
+  			"consumes": [
+	          "application/json",
+	          "application/xml"
+	        ],
+  			"produces": [
+          		"application/xml",
+          		"application/json"
+        	],
+        	"responses": {
+        	  "200": {
+	            "description": "successful action",
+				 "schema":{
+					 "$ref":"#/definitions/Action"
+				 }
+	          },
+	          "405": {
+	            "description": "Invalid input"
+	          }
+	        },
+        	"parameters": [
+	          {
+	            "in": "body",
+	            "name": "body",
+	            "description": "The action performed by the player",
+	            "required": true,
+	            "schema": {
+	              "$ref": "#/definitions/Action"
+	            }
+	          }
+	        ]
+  		}
+  	}
+  },
+  "definitions": {
+  	 "Action": {
+  	 	"type": "object",
+      	"properties": {
+			"id": {
+				"type": "string"
+			},
+			"opponentId": {
+				"type": "string"
+			},
+			"serverId": {
+				"type": "string"
+			},
+      		"latitude": {
+	          "type": "string"
+	        },
+	        "longitude": {
+	          "type": "string"
+	        },
+      		"actionDate": {
+	          "type": "string",
+	          "format": "date-time"
+	        },
+      		"action": {
+	          "type": "string",
+	          "description": "Action made by player",
+	          "enum": [
+	            "rock",
+	            "paper",
+	            "scissors"
+	          ]
+	        },
+	        "response": {
+	        	"type": "string",
+				"enum": [
+					"nil",
+					"winner",
+					"loser",
+					"tie",
+					"noopponent"
+				]
+	        }
+      	}
+  	 }
+  }
+}
