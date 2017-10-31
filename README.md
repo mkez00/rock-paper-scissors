@@ -1,2 +1,2 @@
-# rock-paper-scissors
-Hosted game of Rock Paper Scissors
+
+This is still a work in progress...stay tuned!
