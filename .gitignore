@@ -22,3 +22,7 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+.vagrant
+ubuntu*
+frontend/node_modules

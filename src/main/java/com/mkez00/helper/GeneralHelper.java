@@ -1,8 +1,6 @@
 package com.mkez00.helper;
 
 import com.mkez00.model.Action;
-import org.joda.time.DateTime;
-import org.joda.time.Seconds;
 
 import java.util.Date;
 

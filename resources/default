@@ -1,0 +1,24 @@
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server;
+	server_name _;
+	return 301 https://$host$request_uri;
+}
+
+server {
+	listen   443;
+
+	ssl    on;
+	ssl_certificate    /etc/nginx/ssl/servercert.pem;
+	ssl_certificate_key    /etc/nginx/ssl/serverkey.pem;
+
+	server_name _;
+
+	location / {
+		proxy_pass http://localhost:8080;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Forwarded-Proto $scheme;
+	}
+}

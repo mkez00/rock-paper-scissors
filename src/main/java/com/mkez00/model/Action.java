@@ -4,11 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.joda.time.DateTime;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
 
 /**
  * Action
@@ -119,9 +115,6 @@ public class Action   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(value = "")
-
-
   public String getId() {
     return id;
   }
@@ -135,7 +128,6 @@ public class Action   {
     return this;
   }
 
-  @ApiModelProperty(value = "")
   public String getServerId() {
     return serverId;
   }
@@ -148,9 +140,6 @@ public class Action   {
    * Get opponentId
    * @return opponentId
   **/
-  @ApiModelProperty(value = "")
-
-
   public String getOpponentId() {
     return opponentId;
   }
@@ -168,9 +157,6 @@ public class Action   {
    * Get latitude
    * @return latitude
   **/
-  @ApiModelProperty(value = "")
-
-
   public String getLatitude() {
     return latitude;
   }
@@ -188,9 +174,6 @@ public class Action   {
    * Get longitude
    * @return longitude
   **/
-  @ApiModelProperty(value = "")
-
-
   public String getLongitude() {
     return longitude;
   }
@@ -208,8 +191,6 @@ public class Action   {
    * Get actionDate
    * @return actionDate
   **/
-  @ApiModelProperty(value = "")
-
   @Valid
 
   public Long getActionDate() {
@@ -229,9 +210,6 @@ public class Action   {
    * Action made by player
    * @return action
   **/
-  @ApiModelProperty(value = "Action made by player")
-
-
   public ActionEnum getAction() {
     return action;
   }
@@ -249,9 +227,6 @@ public class Action   {
    * Get response
    * @return response
   **/
-  @ApiModelProperty(value = "")
-
-
   public ResponseEnum getResponse() {
     return response;
   }

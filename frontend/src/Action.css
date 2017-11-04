@@ -1,0 +1,65 @@
+.action {
+    border: 1px solid;
+    display:inline-block;
+    margin:5px;
+    cursor: pointer;
+}
+
+.result {
+    margin:5px;
+}
+
+.action-item {
+  background-repeat: no-repeat;
+	background-color: transparent;
+	display: inline-block;
+	width: 150px;
+	height: 150px;
+	background-size: 150px 150px;
+}
+
+@media only screen and (max-width: 768px) {
+  .action-item{
+    width: 85px;
+  	height: 85px;
+  	background-size: 85px 85px;
+  }
+}
+
+.rock {
+	background-image: url(rock.png);
+}
+
+.paper {
+	background-image: url(paper.png);
+}
+
+.scissors {
+	background-image: url(scissors.png);
+}
+
+.winner {
+	background-image: url(win.png);
+}
+
+.loser {
+	background-image: url(lose.png);
+}
+
+.noopponent {
+  background-image: url(no-opp.png);
+}
+
+.tie {
+  background-image: url(tie.png);
+}
+
+.loading {
+  background-image: url(loading.png);
+  animation: App-logo-spin infinite 2s linear;
+}
+
+@keyframes loading {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,10 @@
+[Unit]
+Description=Launch Rock Paper Scissors Server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/java -jar /opt/application/data/target/rock-paper-scissors-0.0.1-SNAPSHOT.jar
+
+[Install]
+WantedBy=multi-user.target
