@@ -10,21 +10,20 @@ class Actions extends Component {
 
     this.handler = this.handler.bind(this)
     this.resetHandler = this.resetHandler.bind(this)
-    this.locationHandler = this.locationHandler.bind(this)
-    this.state = { actionCompleted: false, gameFinished: false, loading: false, longitude:"0.00", latitude:"0.00" }
+    this.state = { locationLoading: true, actionCompleted: true, gameFinished: false, loading: false, longitude:"0.00", latitude:"0.00" }
   }
-  locationHandler(e) {
-    // e.preventDefault()
-    // var $this = this
-    // if (navigator.geolocation) {
-    //     navigator.geolocation.getCurrentPosition(function(position){
-    //       alert("Latitude: " + position.coords.latitude + "Longitude: " + position.coords.longitude)
-    //       $this.setState({latitude:position.coords.latitude, longitude:position.coords.longitude})
-    //     });
-    // } else {
-    //   alert("No location supported")
-    // }
+
+  componentWillMount() {
+    var $this = this
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position){
+          $this.setState({locationLoading: false, actionCompleted: false, longitude: position.coords.longitude, latitude: position.coords.latitude})
+        });
+    } else {
+      alert("No location supported")
+    }
   }
+
   resetHandler(e) {
     e.preventDefault()
     this.setState({actionCompleted: false, gameFinished: false, loading: false})
@@ -40,7 +39,9 @@ class Actions extends Component {
     })
 
     var $this = this
-    // alert($this.state.latitude, $this.state.longitude)
+    var latitude = this.state.latitude
+    var longitude = this.state.longitude
+
     fetch('/rest/v1/action', {
       method: 'POST',
       headers: {
@@ -48,8 +49,8 @@ class Actions extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        latitude: "0.000",
-        longitude: "0.000",
+        latitude: latitude,
+        longitude: longitude,
         action: action
       })
     })
@@ -76,6 +77,9 @@ class Actions extends Component {
           <GameResult result={this.state.result} resetHandler={this.resetHandler} />
         }
         {this.state.loading &&
+          <Loading />
+        }
+        {this.state.locationLoading &&
           <Loading />
         }
       </div>
