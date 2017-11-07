@@ -10,14 +10,14 @@ class Actions extends Component {
 
     this.handler = this.handler.bind(this)
     this.resetHandler = this.resetHandler.bind(this)
-    this.state = { locationLoading: true, actionCompleted: true, gameFinished: false, loading: false, longitude:"0.00", latitude:"0.00" }
+    this.state = { locationLoading: true, actionReady: false, gameFinished: false, loading: false, longitude:"0.00", latitude:"0.00" }
   }
 
   componentWillMount() {
     var $this = this
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position){
-          $this.setState({locationLoading: false, actionCompleted: false, longitude: position.coords.longitude, latitude: position.coords.latitude})
+          $this.setState({locationLoading: false, actionReady: true, longitude: position.coords.longitude, latitude: position.coords.latitude})
         });
     } else {
       alert("No location supported")
@@ -26,14 +26,14 @@ class Actions extends Component {
 
   resetHandler(e) {
     e.preventDefault()
-    this.setState({actionCompleted: false, gameFinished: false, loading: false})
+    this.setState({actionReady: true, gameFinished: false, loading: false})
   }
   handler(e) {
     e.preventDefault()
 
     var action = e.currentTarget.getAttribute('value')
     this.setState({
-      actionCompleted: true,
+      actionReady: false,
       loading: true,
       actionChosen: action
     })
@@ -66,7 +66,7 @@ class Actions extends Component {
   render() {
     return (
       <div>
-        {!this.state.actionCompleted &&
+        {this.state.actionReady &&
           <div className="actions">
             <Action actionType="rock" handler = {this.handler} />
             <Action actionType="paper" handler = {this.handler} />

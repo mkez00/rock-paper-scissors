@@ -1,7 +1,6 @@
 # Overview
 
-Simple Rock, Paper, Scissors web application that uses a combination of Haversine formula and absolute time between requests to find opponent.
-
+Simple Rock, Paper, Scissors web application that uses a combination of Haversine formula and time between requests to find opponent.
 
 # Technology
 
