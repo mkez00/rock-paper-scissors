@@ -6,10 +6,10 @@ Simple Rock, Paper, Scissors web application that uses a combination of Haversin
 # Technology
 
 ## Front End
-- React JS PWA
+- React (PWA)
 
 ## Backend
-- Spring Boot + Spring MVC
+- Spring Boot + Spring MVC (REST)
 
 ## Persistence
 - Hazelcast In-Memory Data Grid
