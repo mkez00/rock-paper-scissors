@@ -101,7 +101,7 @@ public class ServerProcessServiceImpl implements ServerProcessService {
                             double lng2 = Double.valueOf(action.getLongitude());
                             double calculated = GeneralHelper.distanceBetweenGeoPoints(lat1, lng1, lat2, lng2);
                             if (calculated<1){
-                                LOG.info("Actions are within 1km of one another");
+                                LOG.info("Actions are within 1km of one another: " + calculated);
                                 return action;
                             }
                         }
