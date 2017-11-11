@@ -35,6 +35,7 @@ public class RedisClientConfiguration {
     }
 
     public Jedis getRedisClient(){
+        this.jedis.connect();
         return this.jedis;
     }
 }
