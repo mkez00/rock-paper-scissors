@@ -4,7 +4,7 @@ Simple Rock, Paper, Scissors web application that uses a combination of Haversin
 
 # Technology
 
-## Front End
+## Frontend
 - React (PWA)
 
 ## Backend

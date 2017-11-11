@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * Created by michaelkezele on 2017-10-25.
  */
-@Service
+@Service("ActionRepositoryHazelcast")
 public class ActionRepositoryHazelcast implements ActionRepository {
 
     @Autowired
