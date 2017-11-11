@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.mkez00.configuration.HazelcastConfiguration;
+import com.mkez00.helper.GeneralHelper;
 import com.mkez00.model.Action;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,23 +26,12 @@ public class ActionRepositoryHazelcast implements ActionRepository {
 
     @Override
     public Action findByKey(String id) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.readValue(getMap().get(id), Action.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return GeneralHelper.deserialize(getMap().get(id));
     }
 
     @Override
     public void put(Action action) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            getMap().put(action.getId(),objectMapper.writeValueAsString(action));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        getMap().put(action.getId(), GeneralHelper.serialize(action));
     }
 
     @Override
@@ -53,13 +43,8 @@ public class ActionRepositoryHazelcast implements ActionRepository {
     public List<Action> findAll() {
         List<Action> actions = new ArrayList<>();
         if (getMap()!=null){
-            ObjectMapper objectMapper = new ObjectMapper();
             for (Map.Entry<String,String> entry : getMap().entrySet()){
-                try {
-                    actions.add(objectMapper.readValue(entry.getValue(), Action.class));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                actions.add(GeneralHelper.deserialize(entry.getValue()));
             }
         }
         return actions;

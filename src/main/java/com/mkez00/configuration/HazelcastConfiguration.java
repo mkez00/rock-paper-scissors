@@ -4,6 +4,8 @@ import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
+
 /**
  * Created by michaelkezele on 2017-10-25.
  */
@@ -12,11 +14,12 @@ public class HazelcastConfiguration {
 
     private HazelcastInstance hazelcast;
 
-    public HazelcastConfiguration(){
+    @PostConstruct
+    public void init(){
         hazelcast = Hazelcast.newHazelcastInstance();
     }
 
     public HazelcastInstance getHazelcast(){
-        return hazelcast;
+        return this.hazelcast;
     }
 }

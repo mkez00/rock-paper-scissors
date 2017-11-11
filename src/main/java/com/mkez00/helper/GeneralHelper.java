@@ -1,7 +1,10 @@
 package com.mkez00.helper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mkez00.model.Action;
 
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -44,6 +47,26 @@ public class GeneralHelper {
     public static long addSecondsToCurrentTime(int seconds) {
         seconds = seconds * 1000;
         return getCurrentTime()+seconds;
+    }
+
+    public static String serialize(Action action){
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(action);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Action deserialize(String string){
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.readValue(string, Action.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
