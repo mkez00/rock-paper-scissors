@@ -21,17 +21,23 @@ public class RedisClientConfiguration {
     String redisUrl;
 
     @Value("${redis.port}")
-    Integer redisPort;
+    String redisPort;
 
     Jedis jedis = null;
 
     @PostConstruct
     public void init(){
-        if (redisUrl==null || redisUrl.isEmpty() || redisPort==null){
+        if (redisUrl==null || redisUrl.isEmpty() || redisUrl==null || redisUrl.isEmpty() || redisPort==null || redisPort.isEmpty()){
             return;
         }
         LOG.info("Connected to Redis server: " + redisUrl + ":" + redisPort);
-        jedis = new Jedis(redisUrl, redisPort);
+        Integer redisPortInt = 0;
+        try {
+            redisPortInt = Integer.parseInt(redisPort);
+            jedis = new Jedis(redisUrl, redisPortInt);
+        } catch (NumberFormatException e){
+
+        }
     }
 
     public Jedis getRedisClient(){

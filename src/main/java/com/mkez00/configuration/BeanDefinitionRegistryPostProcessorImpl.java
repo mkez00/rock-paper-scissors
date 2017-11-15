@@ -8,11 +8,14 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import java.util.logging.Logger;
+
 /**
  * Created by michaelkezele on 2017-11-10.
  */
 @Component
 public class BeanDefinitionRegistryPostProcessorImpl implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
+    private static final Logger LOG = Logger.getLogger( BeanDefinitionRegistryPostProcessorImpl.class.getName() );
 
     private static final String ACTION_REPOSITORY = "actionRepository";
 
@@ -25,7 +28,9 @@ public class BeanDefinitionRegistryPostProcessorImpl implements BeanDefinitionRe
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
+        LOG.info("postProcessBeanFactory");
         String implementation = environment.getProperty(ACTION_REPOSITORY);
+        LOG.info("Cache: " + implementation);
         configurableListableBeanFactory.getBeanDefinition(implementation).setPrimary(true);
     }
 

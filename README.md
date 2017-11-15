@@ -15,3 +15,10 @@ Simple Rock, Paper, Scissors web application that uses a combination of Haversin
 ## Persistence
 - Hazelcast In-Memory Data Grid
 - Redis
+
+# Build Instructions
+
+## Compile
+
+1) From project root: `mvn clean package`
+
