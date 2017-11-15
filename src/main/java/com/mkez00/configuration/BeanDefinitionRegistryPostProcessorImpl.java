@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class BeanDefinitionRegistryPostProcessorImpl implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
     private static final Logger LOG = Logger.getLogger( BeanDefinitionRegistryPostProcessorImpl.class.getName() );
 
-    private static final String ACTION_REPOSITORY = "actionRepository";
+    private static final String ACTION_REPOSITORY = "cache.service";
 
     private Environment environment;
 
@@ -30,7 +30,7 @@ public class BeanDefinitionRegistryPostProcessorImpl implements BeanDefinitionRe
     public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
         LOG.info("postProcessBeanFactory");
         String implementation = environment.getProperty(ACTION_REPOSITORY);
-        LOG.info("Cache: " + implementation);
+        LOG.info("Cache service: " + implementation);
         configurableListableBeanFactory.getBeanDefinition(implementation).setPrimary(true);
     }
 

@@ -8,4 +8,4 @@ ENV CACHE_SERVICE="ActionRepositoryHazelcast"
 ENV REDIS_URL=""
 ENV REDIS_PORT="6379"
 
-ENTRYPOINT exec java -DactionRepository=$CACHE_SERVICE -Dredis.url=REDIS_URL -Dredis.port=REDIS_PORT -Djava.security.egd=file:/dev/./urandom -jar /app.jar
+ENTRYPOINT exec java -Dcache.service=$CACHE_SERVICE -Dredis.url=REDIS_URL -Dredis.port=REDIS_PORT -Djava.security.egd=file:/dev/./urandom -jar /app.jar
