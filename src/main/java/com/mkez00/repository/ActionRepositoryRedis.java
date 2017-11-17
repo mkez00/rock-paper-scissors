@@ -6,6 +6,7 @@ import com.mkez00.helper.GeneralHelper;
 import com.mkez00.model.Action;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,31 +27,41 @@ public class ActionRepositoryRedis implements ActionRepository {
     @Override
     public Action findByKey(String id) {
         LOG.info("findByKey");
-        return GeneralHelper.deserialize(redisClientConfiguration.getRedisClient().get(id));
+        try (Jedis jedis = redisClientConfiguration.getRedisPool().getResource()) {
+            return GeneralHelper.deserialize(jedis.get(id));
+        }
     }
 
     @Override
     public void put(Action action) {
         LOG.info("put");
-        redisClientConfiguration.getRedisClient().set(action.getId(), GeneralHelper.serialize(action));
+        try (Jedis jedis = redisClientConfiguration.getRedisPool().getResource()) {
+            jedis.set(action.getId(), GeneralHelper.serialize(action));
+        }
     }
 
     @Override
     public void delete(String id) {
         LOG.info("delete");
-        redisClientConfiguration.getRedisClient().del(id);
+        try (Jedis jedis = redisClientConfiguration.getRedisPool().getResource()) {
+            jedis.del(id);
+        }
     }
 
     @Override
     public List<Action> findAll() {
         LOG.info("findAll");
         List<Action> actions = new ArrayList<>();
-        Set<String> ids = redisClientConfiguration.getRedisClient().keys("*");
-        if (ids!=null){
-            for (String id : ids){
-                actions.add(GeneralHelper.deserialize(redisClientConfiguration.getRedisClient().get(id)));
+        try (Jedis jedis = redisClientConfiguration.getRedisPool().getResource()) {
+            Set<String> ids = jedis.keys("*");
+            if (ids!=null){
+                for (String id : ids){
+                    try (Jedis jedis2 = redisClientConfiguration.getRedisPool().getResource()) {
+                        actions.add(GeneralHelper.deserialize(jedis2.get(id)));
+                    }
+                }
             }
+            return actions;
         }
-        return actions;
     }
 }

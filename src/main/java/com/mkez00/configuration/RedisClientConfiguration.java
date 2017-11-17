@@ -6,8 +6,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 import javax.annotation.PostConstruct;
+import java.time.Duration;
 import java.util.logging.Logger;
 
 /**
@@ -23,7 +26,7 @@ public class RedisClientConfiguration {
     @Value("${redis.port}")
     String redisPort;
 
-    Jedis jedis = null;
+    JedisPool jedisPool = null;
 
     @PostConstruct
     public void init(){
@@ -34,14 +37,31 @@ public class RedisClientConfiguration {
         Integer redisPortInt = 0;
         try {
             redisPortInt = Integer.parseInt(redisPort);
-            jedis = new Jedis(redisUrl, redisPortInt);
+
+            final JedisPoolConfig poolConfig = buildPoolConfig();
+            jedisPool = new JedisPool(poolConfig, redisUrl, redisPortInt);
+
         } catch (NumberFormatException e){
 
         }
     }
 
-    public Jedis getRedisClient(){
-        this.jedis.connect();
-        return this.jedis;
+    public JedisPool getRedisPool(){
+        return jedisPool;
+    }
+
+    private JedisPoolConfig buildPoolConfig() {
+        final JedisPoolConfig poolConfig = new JedisPoolConfig();
+        poolConfig.setMaxTotal(128);
+        poolConfig.setMaxIdle(128);
+        poolConfig.setMinIdle(16);
+        poolConfig.setTestOnBorrow(true);
+        poolConfig.setTestOnReturn(true);
+        poolConfig.setTestWhileIdle(true);
+        poolConfig.setMinEvictableIdleTimeMillis(Duration.ofSeconds(60).toMillis());
+        poolConfig.setTimeBetweenEvictionRunsMillis(Duration.ofSeconds(30).toMillis());
+        poolConfig.setNumTestsPerEvictionRun(3);
+        poolConfig.setBlockWhenExhausted(true);
+        return poolConfig;
     }
 }
